@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Okx wallet integration</title>
+</head>
+
+<body>
+    <div>
+        <label for="" class="okxwallet"></label>
+    </div>
+</body>
+<script>
+    if (typeof window.okxwallet !== "undefined") {
+        console.log("okx wallet install");
+        document.querySelector('.okxwallet').textContent = 'OKX is installed'
+    }
+</script>
+
+</html>
