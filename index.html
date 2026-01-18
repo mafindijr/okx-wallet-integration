@@ -10,12 +10,37 @@
     <div>
         <label for="" class="okxwallet"></label>
     </div>
+    <div>
+        <button class="connectEthereumButton">Connect to Ethereum</button>
+
+        <label class="account"></label>
+    </div>
 </body>
 <script>
+
+    //check whether okx wallet is installed
+
     if (typeof window.okxwallet !== "undefined") {
         console.log("okx wallet install");
         document.querySelector('.okxwallet').textContent = 'OKX is installed'
     }
+
+    //connecting accounts address with EVM
+
+    const connectEthereumButton = document.querySelector('.connectEthereumButton');
+
+    connectEthereumButton.addEventListener('click', () => {
+        //will start the okx extension
+        okxwallet.request({ method: 'eth_requestAccounts' });
+    });
+
+    //using events to listen to account changes logic
+
+    okxwallet.on('accountsChange', (accounts) => {
+        //handles accounts changed event here
+        console.log('Account changed:', accounts);
+        document.querySelector('.account').textContent = accounts[0];
+    })
 </script>
 
 </html>
