@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <title>Okx wallet integration</title>
-    <link rel="stylesheet" href="/style.css">
     <style>
         body {
             display: flex;
@@ -115,7 +114,7 @@
 
         //step2 using events to listen to account changes logic
 
-        okxwallet.on('accountsChange', (accounts) => {
+        okxwallet.on('accountsChanged', (accounts) => {
             //handles accounts changed event here
             console.log('Account changed:', accounts);
             document.querySelector('.account').textContent = accounts[0];
@@ -125,17 +124,17 @@
 
         window.addEventListener('load', async () => {
 
-            const chainId = await windows.ethereum.request({ method: 'eth_chainId' });
+            const chainId = await okxwallet.request({ method: 'eth_chainId' });
             console.log("chainId: ", chainId);
             document.querySelector('.chainId').textContent = chainId;
             // window.ethereum.on('chainChanged', handleChainChanged);
-            okxwallet.on('chainChanged', HandleChainChanged);
+            okxwallet.on('chainChanged', handleChainChanged);
         });
 
         function handleChainChanged(chainId) {
             //we recommended reloading the page, unless you must do otherwise.
             console.log("New chainId: ", chainId);
-            // window.location.reload();
+            window.location.reload();
             document.querySelector('.chainId').textContent = chainId;
 
         }
@@ -143,7 +142,7 @@
         //step 4 switch chain network
         switchChainButton.addEventListener('click', async () => {
             try {
-                const chainId = okxwaller.chainId === "0x42" ? "0xaa36a7" : "0x42";
+                const chainId = okxwallet.chainId === "0x42" ? "0xaa36a7" : "0x42";
                 //sepolia 11155111
                 await okxwallet.request({
                     method: "wallet_switchEthereumChain",
@@ -151,7 +150,7 @@
                 });
             } catch (switchError) {
                 // This error code indicates that the chain has not been added to OKX Wallet.
-                if (error.code === 4902) {
+                if (switchError.code === 4902) {
                     try {
                         await okxwallet.request({
                             method: "wallet_addEthereumChain",
