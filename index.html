@@ -4,43 +4,141 @@
 <head>
     <meta charset="utf-8">
     <title>Okx wallet integration</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgb(250, 248, 248);
+        }
+
+        h1 {
+            /* color: rgb(28, 28, 156); */
+
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .container {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 600px;
+            background: #fff;
+            padding: 20px;
+            margin: 50px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 6px 1px rgba(2, 2, 2, 0.15);
+        }
+
+        button {
+            width: 100%;
+            margin: 20px;
+            background: #000;
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 1s ease-in-out;
+        }
+
+        button:hover {
+            transform: translateY(10px);
+        }
+
+        .detail {
+            display: flex;
+            align-items: center;
+
+        }
+
+        label,
+        p {
+            color: #000;
+            font-size: 24px;
+            font-weight: 600;
+        }
+    </style>
 </head>
 
 <body>
-    <div>
-        <label for="" class="okxwallet"></label>
-    </div>
-    <div>
-        <button class="connectEthereumButton">Connect to Ethereum</button>
+    <div class="container">
+        <div>
+            <h1>OKX Wallet Integration</h1>
 
-        <label class="account"></label>
+            <p>Is OKX wallet install?</p>
+
+            <label name="install" id="install" class="okxwallet"></label>
+
+        </div>
+        <div>
+            <button class="connectEthereumButton">Connect to Ethereum</button>
+            <label class="account"></label>
+        </div>
+        <div>
+            <label class="chainId"></label>
+        </div>
+
+
     </div>
+    <script>
+
+        //check whether okx wallet is installed
+
+        if (typeof window.okxwallet !== "undefined") {
+            console.log("okx wallet install");
+            document.querySelector('.okxwallet').textContent = ' OKX is installed'
+        }
+
+        //connecting accounts address with EVM
+
+        const connectEthereumButton = document.querySelector('.connectEthereumButton');
+
+        let accounts = [];
+
+        //step1 create a connection
+        connectEthereumButton.addEventListener('click', async () => {
+            //will start the okx extension
+            accounts = await okxwallet.request({ method: 'eth_requestAccounts' });
+            console.log("accounts: ", accounts);
+            document.querySelector('.account').textContent = accounts[0];
+
+        });
+
+        //step2 using events to listen to account changes logic
+
+        okxwallet.on('accountsChange', (accounts) => {
+            //handles accounts changed event here
+            console.log('Account changed:', accounts);
+            document.querySelector('.account').textContent = accounts[0];
+        })
+
+        //step3 monitoring blockchain network & handle networks change events
+
+        window.addEventListener('load', async () => {
+
+            const chainId = await windows.ethereum.request({ method: 'eth_chainId' });
+            console.log("chainId: ", chainId);
+            document.querySelector('.chainId').textContent = chainId;
+            // window.ethereum.on('chainChanged', handleChainChanged);
+            okxwallet.on('chainChanged', HandleChainChanged);
+        });
+
+        function handleChainChanged(chainId) {
+            //we recommended reloading the page, unless you must do otherwise.
+            console.log("New chainId: ", chainId);
+            // window.location.reload();
+            document.querySelector('.chainId').textContent = chainId;
+
+        }
+
+    </script>
 </body>
-<script>
-
-    //check whether okx wallet is installed
-
-    if (typeof window.okxwallet !== "undefined") {
-        console.log("okx wallet install");
-        document.querySelector('.okxwallet').textContent = 'OKX is installed'
-    }
-
-    //connecting accounts address with EVM
-
-    const connectEthereumButton = document.querySelector('.connectEthereumButton');
-
-    connectEthereumButton.addEventListener('click', () => {
-        //will start the okx extension
-        okxwallet.request({ method: 'eth_requestAccounts' });
-    });
-
-    //using events to listen to account changes logic
-
-    okxwallet.on('accountsChange', (accounts) => {
-        //handles accounts changed event here
-        console.log('Account changed:', accounts);
-        document.querySelector('.account').textContent = accounts[0];
-    })
-</script>
 
 </html>
