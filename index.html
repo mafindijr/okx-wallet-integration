@@ -84,6 +84,9 @@
             <button class="switchChainButton btn">Switch Chain</button>
             ChainId: <label class="chainId"></label>
         </div>
+        <div>
+            <button class="addTokenButton btn">Add Token</button>
+        </div>
 
 
     </div>
@@ -165,6 +168,63 @@
 
             }
         })
+
+        //step 5 Adding ERC20 tokens
+
+        //Below is the MTK token contract code, which assigns 10000 tokens to the deployer:
+
+        // SPDX-License-Identifier: MIT
+        // // Compatible with OpenZeppelin Contracts ^5.0.0
+        // pragma solidity ^0.8.20;
+
+        // import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+        // import "@openzeppelin/contracts/access/Ownable.sol";
+
+        // contract MyToken is ERC20, Ownable {
+        //     constructor(address initialOwner)
+        //         ERC20("MyToken", "MTK")
+        //         Ownable(initialOwner)
+        //     {
+        //         _mint(msg.sender, 10000 * 10 ** decimals());
+        //     }
+        // }
+        
+
+        //To add a token to the wallet, OKX provides the wallet_watchAsset method. Below is an example of how to use this method to add a token:
+        //Deploy the contract to the Sepolia testnet and get the contract address.
+        //https://sepolia.etherscan.io/address/0x8B5977Eb4B204a93fD153216Be4a66fB7Fc71bd8
+
+        // const addTokenButton = document.querySelector('.addTokenButton btn');
+        // addTokenButton.addEventListener('click', async () => {
+        //     const tokenAddress = "0x8B5977Eb4B204a93fD153216Be4a66fB7Fc71bd8";
+        //     const tokenSymbol = "MIT";
+        //     const tokenDecimals = 18;
+        //     const tokenImage = "https://www.shutterstock.com/image-vector/web-30-typography-on-futuristic-260nw-2126710844.jpg";
+
+        //     try {
+        //         //was added is a boolean. like any RPC method, an error may be thrown.
+        //         const wasAdded = await okxwallet.request({
+        //             method: "wallet_watchAsset",
+        //             params: {
+        //                 type: ERC20, // Initially only supports ERC20, but eventually more!
+        //                 options: {
+        //                     address: tokenAddress, // The address that the token is at.
+        //                     symbol: tokenSymbol,  // A ticker symbol or shorthand, up to 5 chars.
+        //                     decimals: tokenDecimals,  // The number of decimals in the token
+        //                     image: tokenImage,  // A string url of the token logo
+        //                 }
+        //             }
+        //         });
+
+        //         if (wasAdded) {
+        //             console.log("Thanks you for your interest!");
+        //         } else {
+        //             console.log("Your loss!");
+        //         }
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // })
     </script>
 </body>
 
