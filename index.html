@@ -188,7 +188,7 @@
         //         _mint(msg.sender, 10000 * 10 ** decimals());
         //     }
         // }
-        
+
 
         //To add a token to the wallet, OKX provides the wallet_watchAsset method. Below is an example of how to use this method to add a token:
         //Deploy the contract to the Sepolia testnet and get the contract address.
@@ -225,6 +225,31 @@
         //         console.log(error);
         //     }
         // })
+
+
+
+        // step6 Sending transactions
+
+        signTransactionButton.addEventListener('click', () => {
+            okxwallet
+                .request({
+                    method: 'eth_sendTransaction',
+                    params: [
+                        {
+                            from: accounts[0],
+                            to: '0x5CB8896Db7Bf13DE6A6EA362866288e577e4F6C5',
+                            value: '0x1BC16D674EC80000',
+                            gasPrice: '0x09184e72a000',
+                            gas: '0x2710',
+                        },
+                    ],
+                })
+                .then((txHash) => {
+                    console.log(txHash);
+                    document.querySelector('.txHash').textContent = txHash;
+                })
+                .catch((error) => console.error);
+        });
     </script>
 </body>
 
