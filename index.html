@@ -87,6 +87,14 @@
         <div>
             <button class="addTokenButton btn">Add Token</button>
         </div>
+        <div>
+            <button class="signTransactionButton btn">Send Transaction</button>
+            <label class="txHash"></label>
+        </div>
+        <div>
+            <button class="signMessageButton btn">Sign Message</button>
+            <label class="sigMsg"></label>
+        </div>
 
 
     </div>
@@ -247,6 +255,22 @@
                 .then((txHash) => {
                     console.log(txHash);
                     document.querySelector('.txHash').textContent = txHash;
+                })
+                .catch((error) => console.error);
+        });
+
+
+        // step7:  Message Signature
+
+        signMessageButton.addEventListener('click', () => {
+            okxwallet
+                .request({
+                    method: 'eth_sign',
+                    params: [accounts[0], "0xdeadbeaf"],
+                })
+                .then((res) => {
+                    console.log(res);
+                    document.querySelector('.sigMsg').textContent = res;
                 })
                 .catch((error) => console.error);
         });
