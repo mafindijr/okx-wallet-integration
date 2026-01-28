@@ -1,280 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>Okx wallet integration</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: rgb(250, 248, 248);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKX Wallet Integration | Web3 Portfolio</title>
 
-        h1 {
-            /* color: rgb(28, 28, 156); */
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
-            font-size: 36px;
-            font-weight: 700;
-        }
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/style.css">
 
-        .container {
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 600px;
-            background: #fff;
-            padding: 20px;
-            margin: 50px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 6px 1px rgba(2, 2, 2, 0.15);
-        }
-
-        button {
-            width: 100%;
-            margin: 20px;
-            background: #000;
-            color: #fff;
-            padding: 12px 30px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 1s ease-in-out;
-        }
-
-        button:hover {
-            transform: translateY(10px);
-        }
-
-        .detail {
-            display: flex;
-            align-items: center;
-
-        }
-
-        label,
-        p {
-            color: #000;
-            font-size: 24px;
-            font-weight: 600;
-        }
-    </style>
 </head>
 
 <body>
+    <!-- Animated Background -->
+    <div class="background-animation"></div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Main Container -->
     <div class="container">
-        <div>
-            <h1>OKX Wallet Integration</h1>
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">OKX Wallet</h1>
+            <p class="tagline">Secure Web3 Integration Portfolio</p>
+        </header>
 
-            <p>Is OKX wallet install?</p>
-
-            <label name="install" id="install" class="okxwallet"></label>
-
-        </div>
-        <div>
-            <button class="connectEthereumButton">Connect to Ethereum</button>
-            <label class="account"></label>
-        </div>
-        <div>
-            <button class="switchChainButton btn">Switch Chain</button>
-            ChainId: <label class="chainId"></label>
-        </div>
-        <div>
-            <button class="addTokenButton btn">Add Token</button>
-        </div>
-        <div>
-            <button class="signTransactionButton btn">Send Transaction</button>
-            <label class="txHash"></label>
-        </div>
-        <div>
-            <button class="signMessageButton btn">Sign Message</button>
-            <label class="sigMsg"></label>
+        <!-- Status Badges -->
+        <div class="status-container">
+            <div class="status-badge">
+                <span class="status-dot disconnected" id="walletStatusDot"></span>
+                <span id="walletStatus">Wallet Not Connected</span>
+            </div>
+            <div class="status-badge" id="networkBadge" style="display: none;">
+                <i class="fas fa-network-wired"></i>
+                <span id="networkName">Network</span>
+            </div>
         </div>
 
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Wallet Connection Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h2 class="card-title">Connect Wallet</h2>
+                </div>
+                <p class="card-description">
+                    Connect your OKX wallet to interact with the Ethereum blockchain and manage your digital assets.
+                </p>
+                <button class="btn btn-primary connectEthereumButton">
+                    <i class="fas fa-plug"></i>
+                    <span>Connect to Ethereum</span>
+                </button>
+                <div class="info-display" id="accountDisplay">
+                    <span class="account">No account connected</span>
+                    <button class="copy-btn" id="copyAccountBtn" style="display: none;">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
 
+            <!-- Network Management Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h2 class="card-title">Network</h2>
+                </div>
+                <p class="card-description">
+                    Switch between different Ethereum networks. Current network is displayed below.
+                </p>
+                <button class="btn btn-secondary switchChainButton">
+                    <i class="fas fa-random"></i>
+                    <span>Switch Network</span>
+                </button>
+                <div class="info-display">
+                    <span>Chain ID: <span class="chainId">Not connected</span></span>
+                </div>
+            </div>
+
+            <!-- Transaction Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <h2 class="card-title">Send Transaction</h2>
+                </div>
+                <p class="card-description">
+                    Send a test transaction to the specified address on the current network.
+                </p>
+                <button class="btn btn-secondary signTransactionButton">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Send Transaction</span>
+                </button>
+                <div class="info-display">
+                    <span class="txHash">No transaction yet</span>
+                    <button class="copy-btn" id="copyTxBtn" style="display: none;">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Message Signing Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-signature"></i>
+                    </div>
+                    <h2 class="card-title">Sign Message</h2>
+                </div>
+                <p class="card-description">
+                    Cryptographically sign a message to prove ownership of your wallet address.
+                </p>
+                <button class="btn btn-secondary signMessageButton">
+                    <i class="fas fa-pen-fancy"></i>
+                    <span>Sign Message</span>
+                </button>
+                <div class="info-display">
+                    <span class="sigMsg">No signature yet</span>
+                    <button class="copy-btn" id="copySigBtn" style="display: none;">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-    <script>
 
-        //check whether okx wallet is installed
-
-        if (typeof window.okxwallet !== "undefined") {
-            console.log("okx wallet install");
-            document.querySelector('.okxwallet').textContent = ' OKX is installed'
-        }
-
-        //connecting accounts address with EVM
-
-        const connectEthereumButton = document.querySelector('.connectEthereumButton');
-        const switchChainButton = document.querySelector('.switchChainButton');
-
-        let accounts = [];
-
-        //step1 create a connection
-        connectEthereumButton.addEventListener('click', async () => {
-            //will start the okx extension
-            accounts = await okxwallet.request({ method: 'eth_requestAccounts' });
-            console.log("accounts: ", accounts);
-            document.querySelector('.account').textContent = accounts[0];
-
-        });
-
-        //step2 using events to listen to account changes logic
-
-        okxwallet.on('accountsChanged', (accounts) => {
-            //handles accounts changed event here
-            console.log('Account changed:', accounts);
-            document.querySelector('.account').textContent = accounts[0];
-        })
-
-        //step3 monitoring blockchain network & handle networks change events
-
-        window.addEventListener('load', async () => {
-
-            const chainId = await okxwallet.request({ method: 'eth_chainId' });
-            console.log("chainId: ", chainId);
-            document.querySelector('.chainId').textContent = chainId;
-            // window.ethereum.on('chainChanged', handleChainChanged);
-            okxwallet.on('chainChanged', handleChainChanged);
-        });
-
-        function handleChainChanged(chainId) {
-            //we recommended reloading the page, unless you must do otherwise.
-            console.log("New chainId: ", chainId);
-            window.location.reload();
-            document.querySelector('.chainId').textContent = chainId;
-
-        }
-
-        //step 4 switch chain network
-        switchChainButton.addEventListener('click', async () => {
-            try {
-                const chainId = okxwallet.chainId === "0x42" ? "0xaa36a7" : "0x42";
-                //sepolia 11155111
-                await okxwallet.request({
-                    method: "wallet_switchEthereumChain",
-                    params: [{ chainId: chainId }]
-                });
-            } catch (switchError) {
-                // This error code indicates that the chain has not been added to OKX Wallet.
-                if (switchError.code === 4902) {
-                    try {
-                        await okxwallet.request({
-                            method: "wallet_addEthereumChain",
-                            params: [{ chainId: "0xf00", rpcUrl: "https://..."/*....*/ }]
-                        });
-                    } catch (addError) {
-                        // handle add error
-                    }
-                }
-
-                //handle other "switch" errors
-
-            }
-        })
-
-        //step 5 Adding ERC20 tokens
-
-        //Below is the MTK token contract code, which assigns 10000 tokens to the deployer:
-
-        // SPDX-License-Identifier: MIT
-        // // Compatible with OpenZeppelin Contracts ^5.0.0
-        // pragma solidity ^0.8.20;
-
-        // import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-        // import "@openzeppelin/contracts/access/Ownable.sol";
-
-        // contract MyToken is ERC20, Ownable {
-        //     constructor(address initialOwner)
-        //         ERC20("MyToken", "MTK")
-        //         Ownable(initialOwner)
-        //     {
-        //         _mint(msg.sender, 10000 * 10 ** decimals());
-        //     }
-        // }
-
-
-        //To add a token to the wallet, OKX provides the wallet_watchAsset method. Below is an example of how to use this method to add a token:
-        //Deploy the contract to the Sepolia testnet and get the contract address.
-        //https://sepolia.etherscan.io/address/0x8B5977Eb4B204a93fD153216Be4a66fB7Fc71bd8
-
-        // const addTokenButton = document.querySelector('.addTokenButton btn');
-        // addTokenButton.addEventListener('click', async () => {
-        //     const tokenAddress = "0x8B5977Eb4B204a93fD153216Be4a66fB7Fc71bd8";
-        //     const tokenSymbol = "MIT";
-        //     const tokenDecimals = 18;
-        //     const tokenImage = "https://www.shutterstock.com/image-vector/web-30-typography-on-futuristic-260nw-2126710844.jpg";
-
-        //     try {
-        //         //was added is a boolean. like any RPC method, an error may be thrown.
-        //         const wasAdded = await okxwallet.request({
-        //             method: "wallet_watchAsset",
-        //             params: {
-        //                 type: ERC20, // Initially only supports ERC20, but eventually more!
-        //                 options: {
-        //                     address: tokenAddress, // The address that the token is at.
-        //                     symbol: tokenSymbol,  // A ticker symbol or shorthand, up to 5 chars.
-        //                     decimals: tokenDecimals,  // The number of decimals in the token
-        //                     image: tokenImage,  // A string url of the token logo
-        //                 }
-        //             }
-        //         });
-
-        //         if (wasAdded) {
-        //             console.log("Thanks you for your interest!");
-        //         } else {
-        //             console.log("Your loss!");
-        //         }
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // })
-
-
-
-        // step6 Sending transactions
-
-        signTransactionButton.addEventListener('click', () => {
-            okxwallet
-                .request({
-                    method: 'eth_sendTransaction',
-                    params: [
-                        {
-                            from: accounts[0],
-                            to: '0x5CB8896Db7Bf13DE6A6EA362866288e577e4F6C5',
-                            value: '0x1BC16D674EC80000',
-                            gasPrice: '0x09184e72a000',
-                            gas: '0x2710',
-                        },
-                    ],
-                })
-                .then((txHash) => {
-                    console.log(txHash);
-                    document.querySelector('.txHash').textContent = txHash;
-                })
-                .catch((error) => console.error);
-        });
-
-
-        // step7:  Message Signature
-
-        signMessageButton.addEventListener('click', () => {
-            okxwallet
-                .request({
-                    method: 'eth_sign',
-                    params: [accounts[0], "0xdeadbeaf"],
-                })
-                .then((res) => {
-                    console.log(res);
-                    document.querySelector('.sigMsg').textContent = res;
-                })
-                .catch((error) => console.error);
-        });
-    </script>
+    <script src="scripts/index.js"></script>
 </body>
 
 </html>
