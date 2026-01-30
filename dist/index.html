@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKX Wallet Integration | Web3 Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script type="module" crossorigin src="/assets/index-CktxvcHP.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DkwFkbEF.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="background-animation"></div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">OKX Wallet</h1>
+            <p class="tagline">Secure Web3 Integration Portfolio</p>
+        </header>
+
+        <!-- Status Badges -->
+        <div class="status-container">
+            <div class="status-badge">
+                <span class="status-dot disconnected" id="walletStatusDot"></span>
+                <span id="walletStatus">Wallet Not Connected</span>
+            </div>
+            <div class="status-badge" id="networkBadge" style="display: none;">
+                <i class="fas fa-network-wired"></i>
+                <span id="networkName">Network</span>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Wallet Connection Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h2 class="card-title">Connect Wallet</h2>
+                </div>
+                <p class="card-description">
+                    Connect your OKX wallet to interact with the Ethereum blockchain and manage your digital assets.
+                </p>
+                <button class="btn btn-primary connectEthereumButton">
+                    <i class="fas fa-plug"></i>
+                    <span>Connect to Ethereum</span>
+                </button>
+                <div class="info-display" id="accountDisplay">
+                    <span class="account">No account connected</span>
+                    <button class="copy-btn" id="copyAccountBtn" style="display: none;">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Network Management Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h2 class="card-title">Network</h2>
+                </div>
+                <p class="card-description">
+                    Switch between different Ethereum networks. Current network is displayed below.
+                </p>
+                <button class="btn btn-secondary switchChainButton">
+                    <i class="fas fa-random"></i>
+                    <span>Switch Network</span>
+                </button>
+                <div class="info-display">
+                    <span>Chain ID: <span class="chainId">Not connected</span></span>
+                </div>
+            </div>
+
+            <!-- Transaction Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <h2 class="card-title">Send Transaction</h2>
+                </div>
+                <p class="card-description">
+                    Send a test transaction to the specified address on the current network.
+                </p>
+                <button class="btn btn-secondary signTransactionButton">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Send Transaction</span>
+                </button>
+                <div class="info-display">
+                    <span class="txHash">No transaction yet</span>
+                    <button class="copy-btn" id="copyTxBtn" style="display: none;">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Message Signing Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-signature"></i>
+                    </div>
+                    <h2 class="card-title">Sign Message</h2>
+                </div>
+                <p class="card-description">
+                    Cryptographically sign a message to prove ownership of your wallet address.
+                </p>
+                <button class="btn btn-secondary signMessageButton">
+                    <i class="fas fa-pen-fancy"></i>
+                    <span>Sign Message</span>
+                </button>
+                <div class="info-display">
+                    <span class="sigMsg">No signature yet</span>
+                    <button class="copy-btn" id="copySigBtn" style="display: none;">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
